@@ -18,6 +18,8 @@ const articleSchema = new mongoose.Schema({
 
 const Article = mongoose.model("Article", articleSchema);
 
+/////////////////////////////////Requests Targetting All Articles///////////////////////////////
+
 app.route("/articles")
 .get(function(req, res) {
     Article.find({}, function(err, foundArticles) {
@@ -47,6 +49,19 @@ app.route("/articles")
             res.send("Successfully deleted all articles");
         } else {
             res.send(err);
+        }
+    });
+});
+
+/////////////////////////////////Requests Targetting Specific Articles///////////////////////////////
+
+app.route("/articles/:articleTitle")
+.get(function(req, res) {
+    Article.findOne({title: req.params.articleTitle}, function(err, foundArticle) {
+        if(foundArticle){
+            res.send(foundArticle);
+        } else {
+            res.send("No articles matching that title was found");
         }
     });
 });
